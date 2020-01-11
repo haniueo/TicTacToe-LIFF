@@ -1,3 +1,3 @@
 <? php
-include 'indexliff.html';
+include 'index.html';
 ?>
