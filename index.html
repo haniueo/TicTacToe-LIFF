@@ -1,136 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>LIFF Starter</title>
-        <link rel="stylesheet" href="style.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width = device-width, initial-scale=1">
+        <title> Tic Tac Toe 🐱 x 🐶 Multiplayer </title> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <style media="screen">
+            body { background: #F08080; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: bold; text-align: center;}
+            #container { margin: 0 auto;width: 400px;}
+            #container h2 { font-size: 1em;text-transform: uppercase; letter-spacing: 0.1em; color: azure;}
+            h3 { font-size: 1em;}
+            #game { width: 240px; height: 240px;border: 1px solid #2c3e52; margin: auto; padding: 0; margin-bottom: 20px;}
+            #game li { list-style: none; float: left;overflow: hidden;width: 80px;height: 80px;background: #17202a ;border: 1px solid #2c3e52 ;border-right: 1px solid #2c3e52 ;cursor: pointer;text-transform: uppercase;text-align: center;padding-top: 20px;-moz-box-sizing: border-box;box-sizing: border-box;}
+            #game li.🐱 { font-size: 35px;}
+            #game li.🐶 { font-size: 35px;}
+            #game li:hover { background: #212f3d;}
+            #game li:active { width: 80px; height: 80px; border: 0;}
+            #nfo {text-align: center; margin-top: 10px;}
+            #reset-game {text-align: center; font-weight: bold; border: none;padding: 0.06em 1.2em;background: #ed4e6e;color: #ffffff;font-size: 1em;letter-spacing: 1px;text-transform: uppercase;cursor: pointer;display: inline-block;margin: 3px 2px;border-radius: 10px;}
+            #reset-game reset-game:hover {background: #2c3e52; }
+    
+            button { background-color: #ed4e6e; border: none; color:azure; padding: 0.08em 1.2em; text-align: center; display: inline-block; font-size: 15px; cursor: pointer; border-radius: 10px; font-weight: bold;}
+            button:hover { background-color: #2c3e52;}       
+        </style>
     </head>
     <body>
-        <div id="liffAppContent">
-            <!-- ACTION BUTTONS -->
-            <div class="buttonGroup">
-                <div class="buttonRow">
-                    <button id="openWindowButton">Open External Window</button>
-                    <button id="closeWindowButton">Close LIFF App</button>
-                </div>
-                <div class="buttonRow">
-                    <button id="scanQrCodeButton">Open QR Code Reader</button>
-                    <button id="sendMessageButton">Send Message</button>
-                </div>
-                <div class="buttonRow">
-                    <button id="getAccessToken">Get Access Token</button>
-                    <button id="getProfileButton">Get Profile</button>
-                </div>
-            </div>
-            <!-- ACCESS TOKEN DATA -->
-            <div id="accessTokenData" class="hidden textLeft">
-                <h2>Access Token</h2>
-                <a href="#" onclick="toggleAccessToken()">Close Access Token</a>
-                <table>
-                    <tr>
-                        <th>accessToken</th>
-                        <td id="accessTokenField"></td>
-                    </tr>
-                </table>
-            </div>
-            <!-- SCAN QR RESULT -->
-            <div id="scanQr" class="hidden textLeft">
-                <h2>QR Code reader</h2>
-                <a href="#" onclick="toggleQRCodeReader()">Close QR Code Reader Result</a>
-                <table>
-                    <tr>
-                        <th>scanCode Result</th>
-                        <td id="scanQrField"></td>
-                    </tr>
-                </table>
-            </div>
-            <!-- PROFILE INFO -->
-            <div id="profileInfo" class="hidden textLeft">
-                <h2>Profile</h2>
-                <a href="#" onclick="toggleProfileData()">Close Profile</a>
-                <div id="profilePictureDiv">
-                </div>
-                <table>
-                    <tr>
-                        <th>userId</th>
-                        <td id="userIdProfileField"></td>
-                    </tr>
-                    <tr>
-                        <th>displayName</th>
-                        <td id="displayNameField"></td>
-                    </tr>
-                    <tr>
-                        <th>statusMessage</th>
-                        <td id="statusMessageField"></td>
-                    </tr>
-                </table>
-            </div>
-            <!-- LIFF DATA -->
-            <div id="liffData">
-                <h2 id="liffDataHeader" class="textLeft">LIFF Data</h2>
-                <table>
-                    <tr>
-                        <th>OS</th>
-                        <td id="deviceOS" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>Language</th>
-                        <td id="browserLanguage" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>LIFF SDK Version</th>
-                        <td id="sdkVersion" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>isInClient</th>
-                        <td id="isInClient" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>isLoggedIn</th>
-                        <td id="isLoggedIn" class="textLeft"></td>
-                    </tr>
-                </table>
-            </div>
-            <!-- LOGIN LOGOUT BUTTONS -->
-            <div class="buttonGroup">
-                <button id="liffLoginButton">Log in</button>
-                <button id="liffLogoutButton">Log out</button>
-            </div>
-            <div id="statusMessage">
-                <div id="isInClientMessage"></div>
-                <div id="apiReferenceMessage">
-                    <p>Available LIFF methods vary depending on the browser you use to open the LIFF app.</p>
-                    <p>Please refer to the <a href="https://developers.line.biz/en/reference/liff/#initialize-liff-app">API reference page</a> for more information.</p>
-                </div>
-            </div>
-        </div>
-        <!-- LIFF ID ERROR -->
-        <div id="liffIdErrorMessage" class="hidden">
-            <p>You have not assigned any value for LIFF ID.</p>
-            <p>If you are running the app using Node.js, please set the LIFF ID as an environment variable in your Heroku account follwing the below steps: </p>
-            <code id="code-block">
-                <ol>
-                    <li>Go to `Dashboard` in your Heroku account.</li>
-                    <li>Click on the app you just created.</li>
-                    <li>Click on `Settings` and toggle `Reveal Config Vars`.</li>
-                    <li>Set `MY_LIFF_ID` as the key and the LIFF ID as the value.</li>
-                    <li>Your app should be up and running. Enter the URL of your app in a web browser.</li>
-                </ol>
-            </code>
-            <p>If you are using any other platform, please add your LIFF ID in the <code>index.html</code> file.</p>
-            <p>For more information about how to add your LIFF ID, see <a href="https://developers.line.biz/en/reference/liff/#initialize-liff-app">Initializing the LIFF app</a>.</p>
-        </div>
-        <!-- LIFF INIT ERROR -->
-        <div id="liffInitErrorMessage" class="hidden">
-            <p>Something went wrong with LIFF initialization.</p>
-            <p>LIFF initialization can fail if a user clicks "Cancel" on the "Grant permission" screen, or if an error occurs in the process of <code>liff.init()</code>.
-        </div>
-        <!-- NODE.JS LIFF ID ERROR -->
-        <div id="nodeLiffIdErrorMessage" class="hidden">
-            <p>Unable to receive the LIFF ID as an environment variable.</p>
-        </div>
-        <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-        <script src="liff-starter.js"></script>
-    </body>
+            <h2> (づ｡◕‿‿◕｡)づ <br> 𝐓𝐢𝐜 - 𝐓𝐚𝐜 - 𝐓𝐨𝐞 </h2> 
+            <ul id="game"> 
+
+                    <li data-pos="0,0"></li> 
+                
+                    <li data-pos="0,1"></li> 
+                
+                    <li data-pos="0,2"></li> 
+                
+                    <li data-pos="1,0"></li> 
+                
+                    <li data-pos="1,1"></li> 
+                
+                    <li data-pos="1,2"></li> 
+                
+                    <li data-pos="2,0"></li> 
+                
+                    <li data-pos="2,1"></li> 
+                
+                    <li data-pos="2,2"></li> 
+                
+                   </ul>
+                   <div id="message">
+                        <center> <button onclick="login()"> LIFF LogIn </button> <button onclick="logout()"> LIFF LogOut </button> <button onclick="sendMessage()"> Send Message </button> </center>
+                    <div id="emboh" style="display: none;"
+                        <td class="shrink_content"> liff.isInClient </td>
+                        <td class="expand" id="isInClient"> </td>
+                        <td class="shrink_content"> liff.isLoggedIn() </td>
+                        <td class="expand" id="isLoggedIn"> </td>
+                        <td class="shrink_content"> liff.getContext </td>
+                        <td class="expand" id="getContext()"></td>
+                    </div>
+
+                    </div>                
+                           
+     
+                   <center> <button id="reset-game"> 💖 Reset Game 💖</button> </center>
+                   <a><center><img src="https://i.ibb.co/0tt464h/Pngtree-vector-edit-profile-icon-4102441.png" alt="Pngtree-vector-edit-profile-icon-4102441" style="border-radius: 10px;" width="80px" height="80px" id="profileImage"></a></center>
+                   <td class="shrink"> Hey,Hey, Welcome </td> <td class="expand" id="displayName"> </td> 
+                   <div id="game-messages">
+                        <span class="player-x-win"></span>
+                        <span class="player-o-win"></span>
+                        <span class="draw"></span>
+                        <span class="">  Klik Reset Game Jika Score Bertambah 😂 </span>
+                    </div>
+                   <aside id="nfo"> 
+                        <h3> 𝑴𝒖𝒍𝒕𝒊 𝑷𝒍𝒂𝒚𝒆𝒓 𝑮𝒂𝒎𝒆𝒔  </h3>  
+                    
+                        <div id="whos-turn" class="🐱"> 
+                    
+                         <span class="🐱">Player 1 > 🐱 <br/> </span> 
+                    
+                         <span class="🐶">Player 2 > 🐶 </span> 
+                    
+                        </div> 
+                    
+                        <h3>𝑺𝒄𝒐𝒓𝒆 𝑩𝒐𝒂𝒓𝒅</h3> 
+                    
+                        <div id="score">
+                    
+                          Player 🐱: 
+                    
+                         <span id="player-one-score">0</span> 
+                    
+                         <br> Player 🐶: 
+                    
+                         <span id="player-two-score">0 </span> 
+                    
+                         <br> 
+                    
+                        </div> 
+                       </aside>
+
+                       <script src="http://code.jquery.com/jquery-1.5.1.js" type="text/javascript" charset="utf-8"></script>
+                       <script src="bismillah123.js" type="text/javascript" charset="utf-8"></script>      
+                       <script src="https://static.line-scdn.net/liff/edge/2.1/sdl.js"></script>
+                       <script src="liff-init.js?1234"></script>
+                       <script src="liff-functions.js?12345"></script>
+        
+    </body> 
 </html>
